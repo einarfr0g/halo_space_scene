@@ -3,22 +3,21 @@
 #include "../src/OBJ_reader_function.cpp"
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/vector_float3.hpp>
-
 Model::Model(std::string OBJ_dir) {
   obj *modelo = new obj;
   this->buffer = new GLfloat[modelo->indices.size() * 3 * 3];
   uint i = 0;
   numero_triangulos = modelo->indices.size();
   for (auto e : modelo->indices) {
-    buffer[i++] = e.index1.v;
-    buffer[i++] = e.index1.vt;
-    buffer[i++] = e.index1.vn;
-    buffer[i++] = e.index2.v;
-    buffer[i++] = e.index2.vt;
-    buffer[i++] = e.index2.vn;
-    buffer[i++] = e.index3.v;
-    buffer[i++] = e.index3.vt;
-    buffer[i] = e.index3.vn;
+    buffer[i++] = modelo->points[e.index1.v];
+    buffer[i++] = modelo->textures[e.index1.vn];
+    buffer[i++] = modelo->normals[e.index1.vt];
+    buffer[i++] = modelo->points[e.index2.v];
+    buffer[i++] = modelo->textures[e.index2.vn];
+    buffer[i++] = modelo->normals[e.index2.vt];
+    buffer[i++] = modelo->points[e.index3.v];
+    buffer[i++] = modelo->textures[e.index3.vn];
+    buffer[i++] = modelo->normals[e.index3.vt];
   }
   delete modelo;
 }
@@ -40,10 +39,16 @@ void Model::initModel() {
                buffer, GL_STATIC_DRAW);
 
   // Especificar el layout del vertex shader
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat),
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat),
                         (GLvoid *)0);
-
   glEnableVertexAttribArray(0);
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat),
+                        (GLvoid *)(3 * sizeof(GLfloat)));
+  glEnableVertexAttribArray(1);
+
+  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat),
+                        (GLvoid *)(6 * sizeof(GLfloat)));
+  glEnableVertexAttribArray(2);
 }
 
 void Model::updateModel(float timeValue) {

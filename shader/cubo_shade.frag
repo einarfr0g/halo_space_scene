@@ -4,5 +4,5 @@ in vec3 shadedcolor;
 out vec4 color;
 void main()
 {
-    color = vec4(shadedcolor, 1.0);
+    color =  vec4(shadedcolor, 1.0);
 }
