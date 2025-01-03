@@ -231,14 +231,14 @@ vec_indices read_indices(std::string indices_line) {
 }
 
 struct obj {
-  std::vector<GLfloat> points;
-  std::vector<GLfloat> normals;
-  std::vector<GLfloat> textures;
+  std::vector<vec_float3> points;
+  std::vector<vec_float3> normals;
+  std::vector<vec_float2> textures;
   std::vector<vec_indices> indices;
   bool are_textures;
 };
 
-obj read_obj(std::string obj_dir) {
+obj *read_obj(std::string obj_dir) {
   std::ifstream obj_file(obj_dir);
 
   if (!obj_file.is_open())
@@ -247,7 +247,7 @@ obj read_obj(std::string obj_dir) {
   std::string line;
   vec_float2 vec2_aux;
   vec_float3 vec3_aux;
-  obj result;
+  obj *result = new obj;
   bool indices_type = false;
 
   while (!obj_file.eof()) {
@@ -257,23 +257,18 @@ obj read_obj(std::string obj_dir) {
       continue;
     else if (line[0] == 'v' && line[1] == ' ') {
       vec3_aux = read_vec3(line);
-      result.points.push_back(vec3_aux.x);
-      result.points.push_back(vec3_aux.y);
-      result.points.push_back(vec3_aux.z);
+      result->points.push_back(vec3_aux);
     } else if (line[0] == 'v' && line[1] == 'n') {
       vec3_aux = read_vec3(line);
-      result.normals.push_back(vec3_aux.x);
-      result.normals.push_back(vec3_aux.y);
-      result.normals.push_back(vec3_aux.z);
+      result->normals.push_back(vec3_aux);
     } else if (line[0] == 'v' && line[1] == 't') {
       vec2_aux = read_vec2(line);
-      result.textures.push_back(vec2_aux.y);
-      result.textures.push_back(vec2_aux.y);
+      result->textures.push_back(vec2_aux);
     } else if (line[0] == 'f') {
-      result.indices.push_back(read_indices(line));
+      result->indices.push_back(read_indices(line));
       if (indices_type == false) {
         indices_type = true;
-        result.are_textures = read_indices(line).index1.there_are_textures;
+        result->are_textures = read_indices(line).index1.there_are_textures;
       }
     }
   }

@@ -18,9 +18,9 @@ void init() {
   // Inicializar GLEW
   ventana->initGLEW();
   std::string OBJ_dir;
-  std::cout << "ingresa el la dirección del OBJ" << "\n";
-  std::cin >> OBJ_dir;
-  model = new Model(OBJ_dir);
+  // std::cout << "ingresa el la dirección del OBJ" << "\n";
+  // std::cin >> OBJ_dir;
+  model = new Model("pillar_of_autumn.obj");
   ventana->initModels(model);
   ventana->initViewProyection();
 }

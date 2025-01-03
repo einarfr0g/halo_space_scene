@@ -3,26 +3,41 @@
 #include "../src/OBJ_reader_function.cpp"
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/vector_float3.hpp>
+
 Model::Model(std::string OBJ_dir) {
-  obj *modelo = new obj;
-  this->buffer = new GLfloat[modelo->indices.size() * 3 * 3];
+  obj *modelo = read_obj(OBJ_dir);
+  this->buffer = new GLfloat[modelo->indices.size() * 3 * 8];
   uint i = 0;
   numero_triangulos = modelo->indices.size();
   for (auto e : modelo->indices) {
-    buffer[i++] = modelo->points[e.index1.v];
-    buffer[i++] = modelo->textures[e.index1.vn];
-    buffer[i++] = modelo->normals[e.index1.vt];
-    buffer[i++] = modelo->points[e.index2.v];
-    buffer[i++] = modelo->textures[e.index2.vn];
-    buffer[i++] = modelo->normals[e.index2.vt];
-    buffer[i++] = modelo->points[e.index3.v];
-    buffer[i++] = modelo->textures[e.index3.vn];
-    buffer[i++] = modelo->normals[e.index3.vt];
+    buffer[i++] = modelo->points[e.index1.v - 1].x;
+    buffer[i++] = modelo->points[e.index1.v - 1].y;
+    buffer[i++] = modelo->points[e.index1.v - 1].z;
+    buffer[i++] = modelo->normals[e.index1.vn - 1].x;
+    buffer[i++] = modelo->normals[e.index1.vn - 1].y;
+    buffer[i++] = modelo->normals[e.index1.vn - 1].z;
+    buffer[i++] = modelo->textures[e.index1.vt - 1].x;
+    buffer[i++] = modelo->textures[e.index1.vt - 1].y;
+    buffer[i++] = modelo->points[e.index2.v - 1].x;
+    buffer[i++] = modelo->points[e.index2.v - 1].y;
+    buffer[i++] = modelo->points[e.index2.v - 1].z;
+    buffer[i++] = modelo->normals[e.index2.vn - 1].x;
+    buffer[i++] = modelo->normals[e.index2.vn - 1].y;
+    buffer[i++] = modelo->normals[e.index2.vn - 1].z;
+    buffer[i++] = modelo->textures[e.index2.vt - 1].x;
+    buffer[i++] = modelo->textures[e.index2.vt - 1].y;
+    buffer[i++] = modelo->points[e.index3.v - 1].x;
+    buffer[i++] = modelo->points[e.index3.v - 1].y;
+    buffer[i++] = modelo->points[e.index3.v - 1].z;
+    buffer[i++] = modelo->normals[e.index3.vn - 1].x;
+    buffer[i++] = modelo->normals[e.index3.vn - 1].y;
+    buffer[i++] = modelo->normals[e.index3.vn - 1].z;
+    buffer[i++] = modelo->textures[e.index3.vt - 1].x;
+    buffer[i++] = modelo->textures[e.index3.vt - 1].y;
   }
   delete modelo;
+  std::cout << "llegamos aca\n";
 }
-
-// Model::Model(GLfloat* vertices, GLuint indices){}
 
 void Model::initModel() {
 
@@ -35,7 +50,7 @@ void Model::initModel() {
   glBindVertexArray(VAO);
 
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
-  glBufferData(GL_ARRAY_BUFFER, numero_triangulos * 3 * 3 * sizeof(GLfloat),
+  glBufferData(GL_ARRAY_BUFFER, numero_triangulos * 24 * sizeof(GLfloat),
                buffer, GL_STATIC_DRAW);
 
   // Especificar el layout del vertex shader
@@ -73,6 +88,7 @@ void Model::renderModel(glm::mat4 view, glm::mat4 projection) {
 
   // Dibujar el cubo
   glBindVertexArray(VAO);
+  glDrawArrays(GL_TRIANGLES, 0, numero_triangulos * 24);
   // glDrawElements(GL_TRIANGLES, indices_vec.size(), GL_UNSIGNED_INT, 0);
 }
 void Model::finish() {
