@@ -1,6 +1,6 @@
+#define STB_IMAGE_IMPLEMENTATION
 #include "./header/model.h"
 #include "./header/ventana.h"
-#include <iostream>
 
 Ventana *ventana;
 Model *model;
@@ -20,7 +20,9 @@ void init() {
   std::string OBJ_dir;
   // std::cout << "ingresa el la dirección del OBJ" << "\n";
   // std::cin >> OBJ_dir;
-  model = new Model("pillar_of_autumn.obj");
+  model = new Model("jupiter.obj");
+  model->set_textura("Jupiter.jpg");
+  std::cout << "textura? " << model->has_textures << "\n";
   ventana->initModels(model);
   ventana->initViewProyection();
 }

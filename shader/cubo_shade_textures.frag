@@ -5,9 +5,9 @@ in vec2 texturecords;
 
 out vec4 color;
 
-uniform sampler2D ourTexture;
+uniform sampler2D texture0;
 
 void main()
 {
-    color = texture(ourTexture, texturecords) * vec4(shadedcolor, 1.0);
+    color = texture(texture0, texturecords);
 }

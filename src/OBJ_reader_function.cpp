@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <string>
 #include <vector>
+#define STB_IMAGE_IMPLEMENTATION
 
 // struct para regresar un vector en las funciones
 struct vec_float3 {
