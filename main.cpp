@@ -20,7 +20,7 @@ void init() {
   std::string OBJ_dir;
   // std::cout << "ingresa el la dirección del OBJ" << "\n";
   // std::cin >> OBJ_dir;
-  model = new Model("jupiter.obj");
+  model = new Model("pillar_of_autumn.obj");
   model->set_textura("Jupiter.jpg");
   std::cout << "textura? " << model->has_textures << "\n";
   ventana->initModels(model);

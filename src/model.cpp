@@ -108,7 +108,7 @@ void Model::initModel() {
                         (GLvoid *)(3 * sizeof(GLfloat)));
   glEnableVertexAttribArray(1);
 
-  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat),
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat),
                         (GLvoid *)(6 * sizeof(GLfloat)));
   glEnableVertexAttribArray(2);
 }
@@ -133,7 +133,7 @@ void Model::renderModel(glm::mat4 view, glm::mat4 projection) {
   shader->setVec3("posCam", glm::vec3(0.0f, 0.0f, -10.0f));
   shader->setMat4x4("model", modelmat);
   shader->setMat4x4("view",
-                    glm::lookAt(glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.0),
+                    glm::lookAt(glm::vec3(0.0f, 0.0f, -50.0f), glm::vec3(0.0),
                                 glm::vec3(0.0, 1.0, 0.0)));
   shader->setMat4x4("projection", projection);
 

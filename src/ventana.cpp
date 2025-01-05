@@ -1,8 +1,8 @@
 #include "../header/ventana.h"
 #include <iostream>
 Ventana::Ventana() {
-  width = 800;
-  height = 600;
+  width = 1000;
+  height = 1000;
 }
 
 Ventana::Ventana(GLuint w, GLuint h) {

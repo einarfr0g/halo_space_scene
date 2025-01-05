@@ -9,5 +9,5 @@ uniform sampler2D texture0;
 
 void main()
 {
-    color = texture(texture0, texturecords);
+    color = texture(texture0, texturecords) * vec4(shadedcolor,1.0);
 }
